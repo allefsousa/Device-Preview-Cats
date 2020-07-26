@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterdevicepreview/pages/cat_breeds_page.dart';
 
 void main() {
   runApp(
@@ -26,22 +27,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(("Testeee")),
-        ),
-          body: SafeArea(
-            child: Column(
-              children: <Widget>[
-                Container(
-                  height: 500,
-                  color: Colors.red,
-                )
-              ],
-            ),
-          )
-      ),
-    );
+      home: CatBreedsPage(title: "Cachorinhos",));
   }
 }
 
