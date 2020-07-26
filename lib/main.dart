@@ -20,6 +20,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,9 +28,18 @@ class _MyAppState extends State<MyApp> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: Text(("Teste")),
+          title: Text(("Testeee")),
         ),
-        body: Container(),
+          body: SafeArea(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  height: 500,
+                  color: Colors.red,
+                )
+              ],
+            ),
+          )
       ),
     );
   }
