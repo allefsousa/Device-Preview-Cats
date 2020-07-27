@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutterdevicepreview/data/cats.dart';
+import 'package:flutterdevicepreview/networking/cat_api.dart';
+import 'package:flutterdevicepreview/pages/cat_info.dart';
 
 class CatBreedsPage extends StatefulWidget {
-
   CatBreedsPage({Key key, this.title}) : super(key: key);
 
   final String title;
@@ -11,12 +15,22 @@ class CatBreedsPage extends StatefulWidget {
 }
 
 class _CatBreedsPageState extends State<CatBreedsPage> {
+  BreedList breedList = BreedList();
+
+  void getCatData() async {
+    var result = await CatApi().getCatBreeds();
+    print(result);
+    var catMap = json.decode(result);
+    setState(() {
+      breedList = BreedList.fromJson(catMap);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    getCatData();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +39,30 @@ class _CatBreedsPageState extends State<CatBreedsPage> {
         title: Text(widget.title),
       ),
       body: ListView.builder(
-          itemCount: 0,
+          itemCount: (breedList == null ||
+                  breedList.breeds == null ||
+                  breedList.breeds.length == 0)
+              ? 0
+              : breedList.breeds.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return Container();//CatInfo(catId: 'id', catBreed: 'Name');
+                  return CatInfo(
+                      catId: breedList.breeds[index].id,
+                      catBreed: breedList.breeds[index].name);
                 }));
               },
               child: Card(
-                child: Padding(padding: const EdgeInsets.all(8.0),
-                    child:ListTile(
-                    title: Text("Breed Name"),
-                      subtitle: Text("Breed Description"),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(breedList.breeds[index].name),
+                    subtitle: Text(breedList.breeds[index].description),
+                  ),
                 ),
               ),
-            ),);
+            );
           }),
     );
   }
